@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+    <!--引入别的配置文件，文件位置在src根目录下-->
+    <properties resource="jdbc.properties"></properties>
+    <!--给类起别名-->
+    <typeAliases>
+        <typeAlias type="com.newtouch.entity.User" alias="User"></typeAlias>
+    </typeAliases>
+
+    <!--environments用于配置具体的环境参数，例如事务、连接池等-->
+    <!--默认的运行环境ID：通过default属性来指定当前的运行环境ID为mysqlTest，对于环境ID的命名要确保唯一-->
+    <environments default="mysqlTest">
+        <environment id="mysqlTest">
+            <!--transactionManager用来配置事务，Mybatis有两种事务管理方式，JDBC有事务，MANAGER没有事务-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--
+                dataSource元素：使用标准的JDBC数据源接口来配置JDBC连接对象的资源。Mybatis提供了三种数据
+                源类型UNPOOLED、POOLED、JNDI），这里使用POOLED数据源类型。该类型利用“池”的概念将JDBC连
+                接对象组织起来，减少了创建新的连接实例时所必需的初始化和认证时间，是Mybatis实现的简单的数据
+                库连接池类型，它使数据库连接可被复用，不必在每次请求时都去创建一个物理连接。对于高并发的Web应
+                用，这是一种流行的处理方式，有利于快速响应请求。
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/><!--mysql连接驱动-->
+                <property name="url" value="${url}"/><!--连接的url-->
+                <property name="username" value="${name}"/><!--用户名-->
+                <property name="password" value="${password}"/><!--用户名-->
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--使用类资源路径获取资源，注册Mapper文件。也就是说明下该项目下有哪些*Mapper.xml文件-->
+    <mappers>
+        <mapper resource="com/newtouch/dao/UserDaoMapper.xml"></mapper>
+    </mappers>
+</configuration>
