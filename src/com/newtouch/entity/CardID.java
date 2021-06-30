@@ -1,6 +1,6 @@
 package com.newtouch.entity;
 
-        import lombok.Data;
+import lombok.Data;
 
 /**
  * @author : init yo
