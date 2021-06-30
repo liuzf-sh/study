@@ -1,11 +1,14 @@
 package com.newtouch.entity;
 
+import lombok.Data;
+
 /**
  * @author : init yo
  * @Description:
  * @E-mail 1023747751@qq.com
  * @Date: 2021/6/28 10:24
  */
+@Data
 public class User {
     private int id;
     private String username;
