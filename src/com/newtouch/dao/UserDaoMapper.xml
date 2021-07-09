@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--接口的权限定名-->
+<mapper namespace="com.newtouch.dao.UserDao">
+    <!--
+        id:dao接口层的方法名
+        parammeterType：方法参数类型[可选]
+        resultType:方法返回值类型。 有返回值则必写。（如果返回的结果是对象类型或者是对象类型的集合，需要填写的是类的权限定名）
+    -->
+    <select id="findByUsername" parameterType="String" resultType="User">
+        select * from tbl_user where username = #{username}
+    </select>
+
+    <resultMap id="userMap" type="User">
+        <id property="id" column="id"></id>
+        <result property="u_age" column="age"></result>
+        <result property="username" column="username"></result>
+        <result property="birthday" column="birthday"></result>
+    </resultMap>
+    <select id="findAll" resultMap="userMap">
+        select id,username,age ,birthday from tbl_user;
+    </select>
+
+    <!--
+        对于update、delete、insert语句，返回值默认是受到影响的条数
+    -->
+    <update id="updateSetBirthday" parameterType="String" >
+        update tbl_user set birthday = #{birthday} where username = #{username}
+    </update>
+
+
+</mapper>
