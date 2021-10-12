@@ -1,6 +1,8 @@
 package com.newtouch.test;
 
+import com.newtouch.dao.StudentDao;
 import com.newtouch.dao.UserDao;
+import com.newtouch.entity.Student;
 import com.newtouch.entity.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -10,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author : init yo
@@ -23,13 +26,15 @@ public class TestMybatis {
     SqlSessionFactory sqlSessionFactory;
     SqlSession sqlSession;
     UserDao userMapper;
+    StudentDao studentMapper;
 
     @Before
     public void getMapper() throws Exception {
         resourceAsStream = Resources.getResourceAsStream("mybatis-config.xml");//加载Mybatis的核心配置文件
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);// 构建SqlSessionFactory工厂
         sqlSession = sqlSessionFactory.openSession();//通过SqlSessionFactory工厂构建sqlSession对象
-        userMapper = sqlSession.getMapper(UserDao.class);//通过dao接口获取实现类对象
+//        userMapper = sqlSession.getMapper(UserDao.class);//通过dao接口获取实现类对象
+        studentMapper = sqlSession.getMapper(StudentDao.class);//通过dao接口获取实现类对象
     }
 
     @Test
@@ -46,6 +51,27 @@ public class TestMybatis {
             testFindByUsername();
         }
         sqlSession.commit();//Mybatis不集成Spring的话，对于增删改是不会提交的。可以通过openSession(true)开启自动提交。也可以通过sqlSession.commit()手动提交
+        sqlSession.close();//关闭资源
+    }
+
+    @Test
+    public void test1(){
+        List<Student> students = studentMapper.selectAll1();
+        for(Student student : students){
+            System.out.println(student.toString());
+        }
+        sqlSession.close();//关闭资源
+    }
+
+    /**
+     * mybatis  多对一
+     */
+    @Test
+    public void testMoreToOne(){
+        List<Student> students = studentMapper.selectAll();
+        for(Student student : students){
+            System.out.println(student.toString());
+        }
         sqlSession.close();//关闭资源
     }
 }

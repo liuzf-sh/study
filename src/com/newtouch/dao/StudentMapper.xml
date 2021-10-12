@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--接口的权限定名-->
+<mapper namespace="com.newtouch.dao.StudentDao">
+
+    <resultMap id="studentMap" type="com.newtouch.entity.Student">
+        <id column="id" property="id"/>
+        <result column="sname" property="name"/>
+        <association property="teacher" javaType="com.newtouch.entity.Teacher">
+            <id column="tid" property="id"/>
+            <result column="tname" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="studentMap">
+        select s.id,s.name sname,t.id tid,t.name tname from student s,teacher t where s.tid = t.id;
+    </select>
+
+    <select id="selectAll1" resultMap="studentMap">
+        select s.id, s.name sname from student s;
+    </select>
+</mapper>

@@ -33,5 +33,6 @@
     <!--使用类资源路径获取资源，注册Mapper文件。也就是说明下该项目下有哪些*Mapper.xml文件-->
     <mappers>
         <mapper resource="com/newtouch/dao/UserDaoMapper.xml"></mapper>
+        <mapper resource="com/newtouch/dao/StudentMapper.xml"></mapper>
     </mappers>
 </configuration>
