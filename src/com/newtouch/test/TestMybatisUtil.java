@@ -44,4 +44,7 @@ public class TestMybatisUtil {
         }
         MybatisUtil.close();//sqlSession
     }
+
+    public static void main(String[] args) {
+    }
 }

@@ -10,8 +10,13 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.Before;
 import org.junit.Test;
+import sun.misc.FloatingDecimal;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -45,9 +50,9 @@ public class TestMybatis {
     }
 
     @Test
-    public void testUpdateSetBirhtday(){
-        int isUpdateSuccess = userMapper.updateSetBirthday("1997-08-06","lzf");
-        if(isUpdateSuccess!=0){
+    public void testUpdateSetBirhtday() {
+        int isUpdateSuccess = userMapper.updateSetBirthday("1997-08-06", "lzf");
+        if (isUpdateSuccess != 0) {
             testFindByUsername();
         }
         sqlSession.commit();//Mybatis不集成Spring的话，对于增删改是不会提交的。可以通过openSession(true)开启自动提交。也可以通过sqlSession.commit()手动提交
@@ -55,9 +60,9 @@ public class TestMybatis {
     }
 
     @Test
-    public void test1(){
+    public void test1() {
         List<Student> students = studentMapper.selectAll1();
-        for(Student student : students){
+        for (Student student : students) {
             System.out.println(student.toString());
         }
         sqlSession.close();//关闭资源
@@ -67,11 +72,47 @@ public class TestMybatis {
      * mybatis  多对一
      */
     @Test
-    public void testMoreToOne(){
+    public void testMoreToOne() {
         List<Student> students = studentMapper.selectAll();
-        for(Student student : students){
+        for (Student student : students) {
             System.out.println(student.toString());
         }
         sqlSession.close();//关闭资源
+    }
+
+    @Test
+    public void testPercent() {
+        String s = precent((float) 0.00057);
+        System.out.println(s);
+    }
+
+    public static String precent(Float value) {
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.toString();
+    }
+
+    public static String precent1(Float value) {
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.toString();
+    }
+
+    @Test
+    public void testDecimal(){
+        float f = 0.00003535f;
+        DecimalFormat decimalFormat=new DecimalFormat("0.##E0");//格式化设置
+        String result =decimalFormat.format(f);
+        System.out.println("result="+result);
+    }
+
+    @Test
+    public void t1(){
+        double a=1.23456D;
+        System.out.printf("%1.2e\r\n", a);
+        a=12.3456D;
+        System.out.printf("%1.1e\r\n", a);
+        a=123456D;
+        System.out.printf("%1.1e\r\n", a);
     }
 }
